@@ -30,7 +30,7 @@ export default function SeriesShelf({ series, isMuted }) {
       </div>
 
       {/* The Physical Bookshelf Structure */}
-      <div className="relative bg-gradient-to-b from-[#1C1815] to-[#120F0D] rounded-2xl border border-[#332C26] p-4 sm:p-10 shadow-2xl overflow-hidden">
+      <div className="relative bg-gradient-to-b from-[#1C1815] to-[#120F0D] rounded-2xl border border-[#332C26] p-4 sm:p-8 sm:pt-10 shadow-2xl overflow-hidden isolate">
 
         {/* MOBILE VIEW (< sm): Livros Deitados Horizontalmente */}
         <div className="sm:hidden flex flex-col items-center gap-3.5 w-full py-4">
@@ -94,7 +94,7 @@ export default function SeriesShelf({ series, isMuted }) {
         </div>
 
         {/* DESKTOP VIEW (>= sm): Books Row Standing Upright (Em pé) */}
-        <div className="hidden sm:flex relative min-h-[300px] items-end justify-center sm:justify-start gap-4 sm:gap-8 pb-3 px-2 sm:px-6 overflow-x-auto no-scrollbar">
+        <div className="hidden sm:flex relative min-h-[340px] sm:min-h-[360px] pt-12 items-end justify-center sm:justify-start gap-4 sm:gap-8 pb-3 px-2 sm:px-6 overflow-x-auto no-scrollbar">
           {series.map((item) => {
             const isHovered = hoveredId === item.id;
 
@@ -106,7 +106,7 @@ export default function SeriesShelf({ series, isMuted }) {
                 onClick={() => handleOpenSeries(item)}
                 className={`relative group cursor-pointer transition-all duration-300 transform select-none ${
                   isHovered
-                    ? '-translate-y-6 scale-105 z-20'
+                    ? '-translate-y-3 scale-[1.02] z-20'
                     : 'translate-y-0 z-10'
                 }`}
                 style={{
@@ -115,11 +115,11 @@ export default function SeriesShelf({ series, isMuted }) {
               >
                 {/* Book Spine Graphic */}
                 <div
-                  className="w-18 sm:w-22 h-64 sm:h-72 rounded-t-sm shadow-[0_15px_30px_rgba(0,0,0,0.8)] border-t border-r border-[#4A423A] relative flex flex-col justify-between py-4 px-2.5 transition-shadow duration-300"
+                  className="w-18 sm:w-22 h-56 sm:h-64 rounded-t-sm shadow-[0_15px_30px_rgba(0,0,0,0.8)] border-t border-r border-[#4A423A] relative flex flex-col justify-between py-4 px-2.5 transition-all duration-300"
                   style={{
                     backgroundColor: item.spineColor,
                     boxShadow: isHovered
-                      ? `0 20px 35px -5px ${item.accentColor}40, 0 10px 15px -5px rgba(0,0,0,0.8)`
+                      ? `0 20px 35px -5px ${item.accentColor}50, 0 10px 15px -5px rgba(0,0,0,0.8)`
                       : '0 10px 20px rgba(0,0,0,0.6)',
                   }}
                 >
@@ -169,7 +169,7 @@ export default function SeriesShelf({ series, isMuted }) {
 
                 {/* Floating Tooltip */}
                 {isHovered && (
-                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#0F0E0D] border border-[#D4A373]/60 text-white text-[11px] font-mono px-3 py-1 rounded-full whitespace-nowrap shadow-xl pointer-events-none animate-in fade-in zoom-in-95 duration-150 flex items-center gap-1.5">
+                  <div className="absolute -top-9 left-1/2 -translate-x-1/2 bg-[#0F0E0D] border border-[#D4A373]/60 text-white text-[11px] font-mono px-3 py-1 rounded-full whitespace-nowrap shadow-xl pointer-events-none animate-in fade-in zoom-in-95 duration-150 flex items-center gap-1.5">
                     <Sparkles className="w-3 h-3 text-[#D4A373]" />
                     <span>Abrir {item.title}</span>
                   </div>

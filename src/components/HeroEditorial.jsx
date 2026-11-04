@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, MapPin, ArrowDown, ArrowUpRight, MessageCircle } from 'lucide-react';
+import { Sparkles, MapPin, ArrowDown, ArrowUpRight, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import InstagramIcon from './InstagramIcon';
 import { playSwitchSound } from '../utils/audio';
 
@@ -121,7 +121,7 @@ export default function HeroEditorial({ photographer, isMuted, onOpenBooking, on
               whileTap={{ cursor: 'grabbing' }}
               className="relative bg-[#FAF8F5] p-3 sm:p-4 pb-8 rounded-2xl shadow-2xl border border-[#38312A] rotate-1 hover:rotate-0 transition-transform duration-500 cursor-grab active:cursor-grabbing select-none touch-pan-y"
             >
-              <div className="relative aspect-[4/5] bg-black overflow-hidden rounded-xl">
+              <div className="relative aspect-[4/5] bg-black overflow-hidden rounded-xl group/photo">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={activeHighlight}
@@ -135,7 +135,40 @@ export default function HeroEditorial({ photographer, isMuted, onOpenBooking, on
                     draggable={false}
                   />
                 </AnimatePresence>
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white border border-white/20 pointer-events-none">
+
+                {/* Left Edge Click Zone */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrev();
+                  }}
+                  className="absolute left-0 top-0 bottom-0 w-2/5 z-20 flex items-center justify-start pl-2 sm:pl-3 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-200 cursor-pointer"
+                  aria-label="Foto anterior"
+                  title="Clique na borda esquerda para voltar"
+                >
+                  <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:scale-110 hover:bg-black/80 transition-all shadow-lg">
+                    <ChevronLeft className="w-4 h-4 text-[#D4A373]" />
+                  </div>
+                </button>
+
+                {/* Right Edge Click Zone */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                  className="absolute right-0 top-0 bottom-0 w-2/5 z-20 flex items-center justify-end pr-2 sm:pr-3 opacity-0 group-hover/photo:opacity-100 transition-opacity duration-200 cursor-pointer"
+                  aria-label="Próxima foto"
+                  title="Clique na borda direita para avançar"
+                >
+                  <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:scale-110 hover:bg-black/80 transition-all shadow-lg">
+                    <ChevronRight className="w-4 h-4 text-[#D4A373]" />
+                  </div>
+                </button>
+
+                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white border border-white/20 pointer-events-none z-10">
                   {highlights[activeHighlight].tag}
                 </div>
               </div>

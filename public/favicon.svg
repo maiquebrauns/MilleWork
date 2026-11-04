@@ -1,0 +1,25 @@
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tabGold" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FCEFD8" />
+      <stop offset="50%" stop-color="#D4A373" />
+      <stop offset="100%" stop-color="#B87D43" />
+    </linearGradient>
+  </defs>
+  
+  {/* Dark rounded badge background */}
+  <rect width="48" height="48" rx="12" fill="#141210" />
+  <rect x="1" y="1" width="46" height="46" rx="11" stroke="#D4A373" stroke-width="1.5" stroke-opacity="0.3" />
+
+  {/* 4 Viewfinder Focus Brackets (Bolder for high visibility in small tab) */}
+  <path d="M 7 16 L 7 9 L 14 9" stroke="url(#tabGold)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 34 9 L 41 9 L 41 16" stroke="url(#tabGold)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 7 32 L 7 39 L 14 39" stroke="url(#tabGold)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M 34 39 L 41 39 L 41 32" stroke="url(#tabGold)" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+
+  {/* The 'M' Lettermark */}
+  <path d="M 15 34 L 15 16 L 24 25 L 33 16 L 33 34" stroke="url(#tabGold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  
+  {/* Focus dot */}
+  <circle cx="24" cy="33" r="2" fill="url(#tabGold)" />
+</svg>

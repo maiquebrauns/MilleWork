@@ -30,9 +30,71 @@ export default function SeriesShelf({ series, isMuted }) {
       </div>
 
       {/* The Physical Bookshelf Structure */}
-      <div className="relative bg-gradient-to-b from-[#1C1815] to-[#120F0D] rounded-2xl border border-[#332C26] p-6 sm:p-10 shadow-2xl overflow-hidden">
-        {/* Books Row */}
-        <div className="relative min-h-[300px] flex items-end justify-center sm:justify-start gap-4 sm:gap-8 pb-3 px-2 sm:px-6 overflow-x-auto no-scrollbar">
+      <div className="relative bg-gradient-to-b from-[#1C1815] to-[#120F0D] rounded-2xl border border-[#332C26] p-4 sm:p-10 shadow-2xl overflow-hidden">
+
+        {/* MOBILE VIEW (< sm): Livros Deitados Horizontalmente */}
+        <div className="sm:hidden flex flex-col items-center gap-3.5 w-full py-4">
+          {series.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleOpenSeries(item)}
+              className="relative w-full max-w-[320px] rounded-xl p-3.5 flex items-center justify-between cursor-pointer border border-[#4A423A] shadow-xl active:scale-98 transition-all group overflow-hidden select-none"
+              style={{
+                backgroundColor: item.spineColor,
+                boxShadow: `0 8px 24px -4px ${item.accentColor}35, 0 4px 12px rgba(0,0,0,0.8)`,
+              }}
+            >
+              {/* Left Color Spine Accent Stripe */}
+              <div
+                className="absolute left-0 top-0 bottom-0 w-2.5 rounded-l-xl"
+                style={{ backgroundColor: item.accentColor }}
+              />
+
+              {/* Book Details in Horizontal Layout */}
+              <div className="pl-3.5 flex-1 flex flex-col justify-center">
+                <div className="flex items-center gap-2 mb-1">
+                  <span
+                    className="text-[9px] font-mono font-bold tracking-widest px-1.5 py-0.2 rounded"
+                    style={{
+                      backgroundColor: `${item.accentColor}25`,
+                      color: item.accentColor,
+                    }}
+                  >
+                    {item.year}
+                  </span>
+                  <span className="text-[9px] font-mono text-[#B5ADA3] uppercase tracking-wider">
+                    {item.category.split('·')[0]}
+                  </span>
+                </div>
+
+                <h3 className="font-serif font-bold text-lg text-[#FAFAFA] tracking-wide group-hover:text-[#D4A373] transition-colors leading-tight">
+                  {item.title}
+                </h3>
+
+                <span className="text-[10px] font-mono text-[#8C847A] mt-0.5">
+                  {item.photos.length} Fotografias Selecionadas
+                </span>
+              </div>
+
+              {/* Right Action & Cloth Ribbon */}
+              <div className="flex items-center gap-2.5">
+                <span className="text-[10px] font-mono text-[#D4A373] bg-[#0F0E0D]/70 border border-[#D4A373]/30 px-2 py-1 rounded-full whitespace-nowrap">
+                  Abrir 📖
+                </span>
+                <div
+                  className="w-3 h-7 shadow-md flex-none"
+                  style={{
+                    backgroundColor: item.accentColor,
+                    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)',
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* DESKTOP VIEW (>= sm): Books Row Standing Upright (Em pé) */}
+        <div className="hidden sm:flex relative min-h-[300px] items-end justify-center sm:justify-start gap-4 sm:gap-8 pb-3 px-2 sm:px-6 overflow-x-auto no-scrollbar">
           {series.map((item) => {
             const isHovered = hoveredId === item.id;
 
@@ -127,17 +189,18 @@ export default function SeriesShelf({ series, isMuted }) {
           </div>
         </div>
 
-        {/* Shelf Board */}
-        <div className="relative h-6 sm:h-7 bg-gradient-to-r from-[#3D2817] via-[#52361F] to-[#3D2817] rounded-sm border-t-2 border-[#6E482A] border-b-4 border-[#24170D] shadow-[0_12px_20px_rgba(0,0,0,0.8)] flex items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#D4A373] shadow-sm"></div>
-            <span className="text-[9px] font-mono uppercase tracking-widest text-[#C8B89E]/70 font-semibold">
-              Edições Impressas & Digitais
+        {/* Shelf Board - Corrected and Perfectly Fitted Text */}
+        <div className="relative min-h-[30px] sm:min-h-[34px] bg-gradient-to-r from-[#3D2817] via-[#52361F] to-[#3D2817] rounded-sm border-t-2 border-[#6E482A] border-b-4 border-[#24170D] shadow-[0_12px_20px_rgba(0,0,0,0.8)] flex items-center justify-between px-3 sm:px-6 py-1 gap-2">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#D4A373] shadow-sm flex-none"></div>
+            <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-wider text-[#C8B89E] font-semibold truncate">
+              <span className="sm:hidden">Edições Autorais</span>
+              <span className="hidden sm:inline">Edições Impressas & Digitais</span>
             </span>
           </div>
 
-          <span className="text-[9px] font-mono text-[#C8B89E]/50">
-            {series.length} Projetos em Destaque
+          <span className="text-[8px] sm:text-[9px] font-mono text-[#C8B89E]/70 flex-none text-right">
+            {series.length} Projetos
           </span>
         </div>
       </div>

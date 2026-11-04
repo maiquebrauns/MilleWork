@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, MapPin, ArrowDown, ArrowUpRight, MessageCircle } from 'lucide-react';
 import InstagramIcon from './InstagramIcon';
 import { playSwitchSound } from '../utils/audio';
@@ -27,6 +28,16 @@ export default function HeroEditorial({ photographer, isMuted, onOpenBooking, on
       tag: "Queen",
     },
   ];
+
+  const handleNext = () => {
+    if (!isMuted) playSwitchSound();
+    setActiveHighlight((prev) => (prev + 1) % highlights.length);
+  };
+
+  const handlePrev = () => {
+    if (!isMuted) playSwitchSound();
+    setActiveHighlight((prev) => (prev - 1 + highlights.length) % highlights.length);
+  };
 
   return (
     <section className="relative pt-6 pb-12">
@@ -94,21 +105,43 @@ export default function HeroEditorial({ photographer, isMuted, onOpenBooking, on
         {/* Right Column: Visual Moodreel Cards */}
         <div className="lg:col-span-5 relative">
           <div className="relative mx-auto max-w-sm sm:max-w-md">
-            {/* Main Featured Photo Frame */}
-            <div className="relative bg-[#FAF8F5] p-3 sm:p-4 pb-8 rounded-2xl shadow-2xl border border-[#38312A] rotate-1 hover:rotate-0 transition-transform duration-500">
+            {/* Main Featured Photo Frame with Drag & Swipe */}
+            <motion.div
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.3}
+              onDragEnd={(_, info) => {
+                const threshold = 40;
+                if (info.offset.x < -threshold || info.velocity.x < -300) {
+                  handleNext();
+                } else if (info.offset.x > threshold || info.velocity.x > 300) {
+                  handlePrev();
+                }
+              }}
+              whileTap={{ cursor: 'grabbing' }}
+              className="relative bg-[#FAF8F5] p-3 sm:p-4 pb-8 rounded-2xl shadow-2xl border border-[#38312A] rotate-1 hover:rotate-0 transition-transform duration-500 cursor-grab active:cursor-grabbing select-none touch-pan-y"
+            >
               <div className="relative aspect-[4/5] bg-black overflow-hidden rounded-xl">
-                <img
-                  src={highlights[activeHighlight].image}
-                  alt={highlights[activeHighlight].title}
-                  className="w-full h-full object-cover transition-all duration-700 hover:scale-105"
-                />
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white border border-white/20">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={activeHighlight}
+                    src={highlights[activeHighlight].image}
+                    alt={highlights[activeHighlight].title}
+                    initial={{ opacity: 0.7 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0.7 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-full h-full object-cover pointer-events-none"
+                    draggable={false}
+                  />
+                </AnimatePresence>
+                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-mono text-white border border-white/20 pointer-events-none">
                   {highlights[activeHighlight].tag}
                 </div>
               </div>
 
               {/* Caption & Indicator */}
-              <div className="mt-4 px-1 flex items-center justify-between text-[#24211E]">
+              <div className="mt-4 px-1 flex items-center justify-between text-[#24211E] pointer-events-none">
                 <div>
                   <h3 className="font-serif font-bold text-base sm:text-lg leading-tight">
                     {highlights[activeHighlight].title}
@@ -118,7 +151,7 @@ export default function HeroEditorial({ photographer, isMuted, onOpenBooking, on
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Selector Dots below card */}
             <div className="mt-4 flex items-center justify-center gap-2">
@@ -129,7 +162,7 @@ export default function HeroEditorial({ photographer, isMuted, onOpenBooking, on
                     if (!isMuted) playSwitchSound();
                     setActiveHighlight(idx);
                   }}
-                  className={`h-1.5 rounded-full transition-all ${
+                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
                     activeHighlight === idx
                       ? 'w-7 bg-[#D4A373]'
                       : 'w-2 bg-[#38312B] hover:bg-[#5C5349]'
